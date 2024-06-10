@@ -1,30 +1,39 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    node: true,
   },
-    extends: [
-    'plugin:vue/vue3-recommended',
-    'standard'
-  ],
+  extends: ["plugin:vue/vue3-recommended", "eslint:recommended"],
   parserOptions: {
     ecmaVersion: 12,
-    sourceType: 'module'
+    sourceType: "module",
+    parser: "babel-eslint",
   },
-  plugins: [
-    'vue'
-  ],
+  plugins: ["vue"],
   rules: {
-    indent: [
-      'error',
-      2
+    /* eslint:recommended */
+    semi: ["error", "always"],
+    indent: ["error", 2],
+    "comma-spacing": ["error", { before: false, after: true }],
+
+    /* plugin:vue/vue3-essential */
+    "vue/html-closing-bracket-newline": [
+      "error",
+      {
+        singleline: "never",
+        multiline: "always",
+      },
     ],
-    'no-trailing-spaces': 0,
-    'keyword-spacing': 0,
-    'no-unused-vars': 1,
-    'no-multiple-empty-lines': 0,
-    'space-before-function-paren': 0,
-    'eol-last': 0,
-    'vue/no-v-html': 0
-  }
+    "vue/html-closing-bracket-spacing": ["error"],
+    "vue/html-end-tags": ["error"],
+    "vue/html-self-closing": [
+      "error",
+      {
+        html: {
+          void: "always",
+          normal: "never",
+        },
+      },
+    ],
+  },
 }

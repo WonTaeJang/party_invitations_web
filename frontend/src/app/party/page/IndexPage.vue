@@ -7,6 +7,10 @@
     <div class="contents" ref="contentsRef">
       <IntroCard />
       <InvitationCard />
+      <GalleryCard 
+        :title="'추억 갤러리'" 
+        :path="'memory'" 
+      />
     </div>
 
     <!-- footer -->
@@ -21,6 +25,7 @@
 <script setup>
 import TheHeader from "@party/components/TheHeader.vue"
 import IntroCard from "@party/components/IntroCard.vue"
+import GalleryCard from "@party/components/GalleryCard.vue"
 import InvitationCard from "../components/InvitationCard.vue"
 import { ref, toRefs } from "vue"
 import { useScroll } from "@vueuse/core"
