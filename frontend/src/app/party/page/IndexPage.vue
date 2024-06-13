@@ -11,6 +11,7 @@
         :title="'추억 갤러리'" 
         :path="'memory'" 
       />
+      <NaverMapCard />
     </div>
 
     <!-- footer -->
@@ -26,7 +27,9 @@
 import TheHeader from "@party/components/TheHeader.vue"
 import IntroCard from "@party/components/IntroCard.vue"
 import GalleryCard from "@party/components/GalleryCard.vue"
-import InvitationCard from "../components/InvitationCard.vue"
+import InvitationCard from "@party/components/InvitationCard.vue"
+import NaverMapCard from "@party/components/NaverMapCard.vue"
+
 import { ref, toRefs } from "vue"
 import { useScroll } from "@vueuse/core"
 
