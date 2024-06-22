@@ -69,7 +69,9 @@ app.post('/api/participant/find', async (req, res) => {
     res.status(200).json(data)
   } catch (err) {
     console.error('Error find data', err)
-    res.status(500).json({ message: 'Error find data' })
+    res.status(500).json({ 
+      message: 'Error find data' 
+    })
   }
 })
 
@@ -121,7 +123,10 @@ app.post('/api/participant', async (req, res) => {
 
     // 이미 존재할때
     if(data.length > 0) {
-      return res.status(400).json({ error: 'Already participant user' })
+      return res.status(400).json({ 
+        code: 'req-error-already',
+        error: 'Already participant user' 
+      })
     }
 
     await collection.insertOne({
@@ -135,7 +140,10 @@ app.post('/api/participant', async (req, res) => {
     res.status(201).json({message: 'Insert Success'})
   } catch (err) {
     console.error('Error fetching data', err)
-    res.status(500).json({ message: 'Error fetching data' })
+    res.status(500).json({ 
+      code: 'req-error',
+      message: 'Error fetching data' 
+    })
   }
 })
 
