@@ -71,17 +71,19 @@ import { ref, toRefs, onMounted } from "vue"
 import { useCoreStore } from '@store/core'
 import { useScroll } from "@vueuse/core"
 import particitantAPI from '@api/participant'
+import { useCookie } from '@/composables/use-cookie.js'
 
 const coreStore = useCoreStore()
+const { participateToggle } = toRefs(coreStore)
+
 const contentsRef = ref(null)
 const { arrivedState } = useScroll(contentsRef)
 const { left, right, top, bottom } = toRefs(arrivedState)
 
+const {hasCookie, setCookie} = useCookie()
 
 const isLoading = ref(false)
-
-const { participateToggle } = toRefs(coreStore)
-const noticeToggle = ref(true)
+const noticeToggle = ref(false)
 
 const confirmType = ref(false)  // true: sucess, false: error
 const confirmError = ref(null)
@@ -110,14 +112,13 @@ const indexMap = [
   },
 ]
 
-onMounted(async () => {
-  // user 정보를 localstorage에 저장하고 있기
-  // let { data } = await particitantAPI.test()
-  // console.log(data)
+onMounted(() => {
+  if (!hasCookie('hide_one_day')) {
+    noticeToggle.value = true
+  }
 })
 
 const eventFormOpen = () => {
-  noticeToggle.value = false
   participateToggle.value = true
 }
 

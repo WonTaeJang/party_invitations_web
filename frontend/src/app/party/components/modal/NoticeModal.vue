@@ -45,12 +45,31 @@
         >
           참가하러 가기
         </button>
+
+        <div
+          class="cookie-item"
+          @click="checked = !checked"
+        >
+          <i 
+            :class="['bi', `bi-check-circle`, checked ? 'text-dark' : 'text-body-tertiary']"
+            style="font-size: 12px;"
+          ></i>
+
+          <span
+            :class="[checked ? 'text-dark' : 'text-body-tertiary']"
+          >
+            하루동안 보지 않기
+          </span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
 import { ref } from 'vue'
+import { useCookie } from '@/composables/use-cookie.js'
+const {hasCookie, setCookie} = useCookie()
+const checked = ref(false)
 
 const infos = ref([
   {
@@ -69,12 +88,17 @@ const infos = ref([
 
 const emit = defineEmits(['closeModal', 'participate'])
 
-const close = () => {
+const close = () => { 
+  if (checked.value) {
+    setCookie('hide_one_day')
+  }
+
   emit('closeModal')
 }
 
 const onClickGo = () => {
   emit('participate')
+  close()
 }
 </script>
 <style lang="scss" scoped>
@@ -125,10 +149,17 @@ const onClickGo = () => {
     align-items: center;
     gap: 4px;
 
-    img {
-      width: 16px;
-      height: 16px;
+    span {
+      font-size: 10px;
     }
+  }
+
+  .cookie-item {
+    padding-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 
     span {
       font-size: 12px;
