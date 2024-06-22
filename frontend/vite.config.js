@@ -9,7 +9,12 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'src'),
       '@img': resolve(__dirname, 'src/assets/img'),
+      '@api': resolve(__dirname, 'src/api'),
       '@party': resolve(__dirname, 'src/app/party'),
+      '@store': resolve(__dirname, 'src/stores'),
     }
+  },
+  server: {
+    // host: true
   }
 })

@@ -1,10 +1,16 @@
 <template>
   <div class="party-index">
     <!-- header -->
-    <TheHeader class="header" :top="top" />
+    <TheHeader
+      class="header"
+      :top="top"
+    />
 
     <!-- contents -->
-    <div class="contents" ref="contentsRef">
+    <div
+      ref="contentsRef"
+      class="contents"
+    >
       <IntroCard />
       <InvitationCard />
       <GalleryCard 
@@ -21,6 +27,33 @@
       </div>
     </div>
   </div>
+
+  <teleport to="#popup">
+    <NoticeModal 
+      v-if="noticeToggle"
+      @close-modal="noticeToggle = false"
+      @participate="eventFormOpen"
+    />
+
+    <ParticipateFormModal 
+      v-if="participateToggle"
+      @close-modal="participateToggle = false"
+      @submit="eventSubmit"
+    />
+
+    <ConfirmModal 
+      v-if="confirmToggle"
+      :req-type="confirmType"
+      :req-error="confirmError"
+      @close-modal="confirmToggle = false"
+    />
+  </teleport>
+
+  <teleport to="#loading">
+    <SpinnerModal 
+      v-if="isLoading"
+    />
+  </teleport>
 </template>
 
 <script setup>
@@ -29,13 +62,30 @@ import IntroCard from "@party/components/IntroCard.vue"
 import GalleryCard from "@party/components/GalleryCard.vue"
 import InvitationCard from "@party/components/InvitationCard.vue"
 import NaverMapCard from "@party/components/NaverMapCard.vue"
+import ParticipateFormModal from "@party/components/modal/ParticipateFormModal.vue"
+import NoticeModal from "@party/components/modal/NoticeModal.vue"
+import SpinnerModal from '@party/components/spinner/SpinnerModal.vue'
+import ConfirmModal from "@party/components/modal/ConfirmModal.vue"
 
-import { ref, toRefs } from "vue"
+import { ref, toRefs, onMounted } from "vue"
+import { useCoreStore } from '@store/core'
 import { useScroll } from "@vueuse/core"
+import particitantAPI from '@api/participant'
 
+const coreStore = useCoreStore()
 const contentsRef = ref(null)
 const { arrivedState } = useScroll(contentsRef)
 const { left, right, top, bottom } = toRefs(arrivedState)
+
+
+const isLoading = ref(false)
+
+const { participateToggle } = toRefs(coreStore)
+const noticeToggle = ref(true)
+
+const confirmType = ref(false)  // true: sucess, false: error
+const confirmError = ref(null)
+const confirmToggle = ref(false)
 
 const indexMap = [
   {
@@ -59,6 +109,53 @@ const indexMap = [
     label: "오시는 길",
   },
 ]
+
+onMounted(async () => {
+  // user 정보를 localstorage에 저장하고 있기
+  // let { data } = await particitantAPI.test()
+  // console.log(data)
+})
+
+const eventFormOpen = () => {
+  noticeToggle.value = false
+  participateToggle.value = true
+}
+
+// 파티 신청하기 
+const eventSubmit = async ($event) => {
+  try {
+    isLoading.value = true
+    await particitantAPI.createPaticitant($event)
+    coreStore.user = $event
+    confirmType.value = true
+    confirmError.value = null
+  } catch (error) {
+    let { code } = error?.response?.data
+    
+    confirmError.value = errorNotice(code)
+    confirmType.value = false
+  } finally {
+    confirmToggle.value = true
+    isLoading.value = false
+  }
+}
+
+const errorNotice = (code) => {
+  let error = ''
+  switch (code) {
+    case 'req-error-already':
+      // 이미 있을때 
+      error = '이미 신청을 하였습니다.'
+      break 
+    case 'req-error':
+    default:
+      error = '네트워크 요청 오류'
+      // bad requset
+  }
+
+  return error
+}
+
 </script>
 
 <style lang="scss" scoped>

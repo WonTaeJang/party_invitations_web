@@ -1,29 +1,38 @@
 <template>
   <CardContainer :title="`초대합니다.`">
-    <div class="gallery-container">
+    <div class="gallery-container bg-dark">
       <Carousel
         id="gallery"
+        v-model="currentSlide"
         :items-to-show="1"
         :wrap-around="false"
-        v-model="currentSlide"
       >
-        <Slide v-for="slide in galleryList" :key="slide">
+        <Slide
+          v-for="slide in galleryList"
+          :key="slide"
+        >
           <div class="carousel__item">
-            <img :src="`${slide.link}`" />
+            <img :src="`${slide.link}`">
           </div>
         </Slide>
       </Carousel>
 
       <Carousel
         id="thumbnails"
+        ref="carousel"
+        v-model="currentSlide"
         :items-to-show="4"
         :wrap-around="true"
-        v-model="currentSlide"
-        ref="carousel"
       >
-        <Slide v-for="(slide, idx) in galleryList" :key="slide">
-          <div class="carousel__item" @click="slideTo(idx)">
-            <img :src="`${slide.link}`" />
+        <Slide
+          v-for="(slide, idx) in galleryList"
+          :key="slide"
+        >
+          <div
+            class="carousel__item border-dark"
+            @click="slideTo(idx)"
+          >
+            <img :src="`${slide.link}`">
           </div>
         </Slide>
       </Carousel>
@@ -35,7 +44,6 @@
 import { computed, ref } from "vue"
 import CardContainer from "./CardContainer.vue"
 import { Carousel, Slide } from "vue3-carousel"
-
 import "vue3-carousel/dist/carousel.css"
 const props = defineProps({
   path: {
@@ -68,7 +76,7 @@ const slideTo = (val) => {
 
 <style lang="scss" scoped>
 .gallery-container {
-  background-color: black !important;
+  // background-color: black !important;
   padding-bottom: 10px;
 }
 #gallery {

@@ -1,11 +1,25 @@
 <template>
-  <div :class="['header-wrap', { 'header-wrap--top': isTop }]">
-    <span>장원태 ♡ 김희연</span>
+  <div 
+    class="bg-dark text-bg-primary "
+    :class="['header-wrap', { 'header-wrap--top': isTop }]"
+  >
+    <label>장원태 ♡ 김희연</label>
+
+    <i 
+      v-if="!isTop && coreStore.hasUser"
+      :class="['bi', `bi-envelope-check`]"
+      style="font-size: 20px;"
+      @click="onClick"
+    ></i>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue"
+import { toRefs, computed } from "vue"
+import { useCoreStore } from "@store/core"
+
+const coreStore = useCoreStore()
+const { participateToggle } = toRefs(coreStore)
 
 const props = defineProps({
   top: {
@@ -14,35 +28,48 @@ const props = defineProps({
   },
 })
 
+
+
 const isTop = computed(() => {
   return props.top
 })
+
+const onClick = () => {
+  participateToggle.value = true
+}
 </script>
 
 <style lang="scss" scoped>
 .header-wrap {
-  background-color: transparent;
+  // background-color: --bs-body-bg;
   display: flex;
-
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 32px;
+  padding: 0 10px;
   transition: all 0.5s;
+  z-index: 10000;
 
-  span {
+  label {
     font-size: 16px;
-    color: black;
+    // color: #fff;
   }
 
   &--top {
     height: 80px;
-    background-color: black;
     align-items: center;
     justify-content: center;
 
-    span {
-      color: #fff;
+    label {
+      // color: #fff;
       font-size: 32px;
     }
   }
+}
+
+.bi-envelope-check {
+  display: flex;
+  align-items: center;
 }
 </style>
