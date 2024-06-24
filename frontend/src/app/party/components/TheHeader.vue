@@ -1,13 +1,15 @@
 <template>
   <div 
-    class="bg-dark text-bg-primary "
+    class="bg-dark text-white"
     :class="['header-wrap', { 'header-wrap--top': isTop }]"
   >
     <label>장원태 ♡ 김희연</label>
 
     <i 
-      v-if="!isTop && coreStore.hasUser"
-      :class="['bi', `bi-envelope-check`]"
+      v-if="!isTop"
+      :class="[
+        'bi', 
+        coreStore.hasUser ? `bi-envelope-check` : 'bi-envelope']"
       style="font-size: 20px;"
       @click="onClick"
     ></i>

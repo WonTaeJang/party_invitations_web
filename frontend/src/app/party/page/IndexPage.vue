@@ -12,18 +12,47 @@
       class="contents"
     >
       <IntroCard />
-      <InvitationCard />
-      <GalleryCard 
-        :title="'추억 갤러리'" 
-        :path="'memory'" 
-      />
+      <LazyComponent
+        idle
+        :is-intersected="isReady"
+      >
+        <InvitationCard />
+        
+        <GalleryCard 
+          :title="'추억 갤러리'" 
+          :path="'memory'" 
+        />
+      </LazyComponent>
       <NaverMapCard />
     </div>
 
     <!-- footer -->
-    <div class="footer">
-      <div class="container">
-        <span> 방명록 애니메이션 </span>
+    <div
+      class="footer bg-dark"
+      @click="flag = !flag"
+    >
+      <div
+        v-if="messageList.length > 0"
+        class="container bg-black text-white"
+      >
+        <Transition name="slide-up">
+          <div
+            v-if="flag"
+            class="message-item"
+          >
+            <i class="bi bi-balloon-heart"></i>
+            <label>{{ messageList[messageCount].name }}</label>
+            <label>{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}</label>
+          </div>
+          <div
+            v-else
+            class="message-item"
+          >
+            <i class="bi bi-balloon-heart-fill"></i>
+            <label>{{ messageList[messageCount].name }}</label>
+            <label>{{ messageList[messageCount].comments }}</label>
+          </div>
+        </Transition>
       </div>
     </div>
   </div>
@@ -57,6 +86,8 @@
 </template>
 
 <script setup>
+import LazyComponent from 'v-lazy-component'
+
 import TheHeader from "@party/components/TheHeader.vue"
 import IntroCard from "@party/components/IntroCard.vue"
 import GalleryCard from "@party/components/GalleryCard.vue"
@@ -82,12 +113,17 @@ const { left, right, top, bottom } = toRefs(arrivedState)
 
 const {hasCookie, setCookie} = useCookie()
 
+const isReady = ref(false)
+const flag = ref(true)
 const isLoading = ref(false)
 const noticeToggle = ref(false)
 
 const confirmType = ref(false)  // true: sucess, false: error
 const confirmError = ref(null)
 const confirmToggle = ref(false)
+
+const messageList = ref([])
+const messageCount = ref(0)
 
 const indexMap = [
   {
@@ -112,11 +148,44 @@ const indexMap = [
   },
 ]
 
-onMounted(() => {
-  if (!hasCookie('hide_one_day')) {
-    noticeToggle.value = true
+onMounted(async () => {
+  try {
+    if (!hasCookie('hide_one_day')) {
+      noticeToggle.value = true
+    }
+
+    isReady.value = true
+    isLoading.value = true
+    await initMessage()
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
   }
+
 })
+
+const initMessage = async () => {
+  let { data } = await particitantAPI.getParticipants()
+
+  console.log(data)
+
+  if (data) {
+    messageList.value = data.filter((el) => {
+      return !!el.comments
+    })
+
+    console.log(messageList.value)
+  }
+
+  setInterval(() => {
+    flag.value = !flag.value
+
+    if (messageList.value.length > 0) {
+      messageCount.value = (messageCount.value + 1) % messageList.value.length
+    }
+  }, 3000)
+}
 
 const eventFormOpen = () => {
   participateToggle.value = true
@@ -126,7 +195,7 @@ const eventFormOpen = () => {
 const eventSubmit = async ($event) => {
   try {
     isLoading.value = true
-    await particitantAPI.createPaticitant($event)
+    await particitantAPI.createParticitant($event)
     coreStore.user = $event
     confirmType.value = true
     confirmError.value = null
@@ -172,7 +241,7 @@ const errorNotice = (code) => {
   }
 
   .contents {
-    height: calc(100% - 50px);
+    height: calc(100% - 40px);
     overflow-y: scroll;
   }
 
@@ -180,25 +249,60 @@ const errorNotice = (code) => {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 50px;
+    height: 40px;
 
     // background-color: black;
-    padding: 10px;
+    padding: 5px 10px;
     box-sizing: border-box;
 
     .container {
       width: 100%;
       height: 100%;
+      position: relative;
       border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: black;
-
-      span {
-        color: #fff;
-      }
     }
+  }
+  
+}
+
+.v-lazy-component.v-lazy-component--loading {
+  filter: blur(20px);
+}
+
+.v-lazy-component.v-lazy-component--loaded {
+  filter: blur(0);
+  transition: filter 1s;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.25s ease-out;
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.message-item {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  display: flex;
+  gap: 8px;
+  // transform: translateY(-50%);
+  // display: flex;
+  // align-items: center;
+  // justify-content: space-between;
+  label {
+    // text-overflow: ellipsis;
+    // width: 250px;
+    white-space: nowrap;
   }
 }
 </style>

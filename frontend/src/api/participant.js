@@ -1,11 +1,14 @@
 import instance from "./util"
 
 const particitantAPI = {
-  createPaticitant: (data) => {
+  createParticitant: (data) => {
     return instance.post('/api/participant', data)
   },
   test: () => {
     return instance.get('/api/data')
+  },
+  getParticipants: () => {
+    return instance.get('/api/participants')
   }
 }
 

@@ -9,6 +9,7 @@
 const props = defineProps({
   title: {
     type: String,
+    default: null
   },
 })
 </script>
