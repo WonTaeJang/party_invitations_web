@@ -1,5 +1,8 @@
 <template>
-  <CardContainer :title="`초대합니다.`">
+  <CardContainer 
+    icon="images"  
+    :title="`초대합니다.`"
+  >
     <div class="gallery-container bg-dark">
       <Carousel
         id="gallery"

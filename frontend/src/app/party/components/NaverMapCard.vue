@@ -1,16 +1,21 @@
 <template>
-  <CardContainer :title="`오시는 길`">
+  <CardContainer 
+    icon="map"
+    :title="`오시는 길`"
+  >
     <div>
       지도 경로 입력
     </div>
 
-    <naver-map style="width: 100%; height: 400px" :mapOptions="mapOptions">
+    <naver-map
+      style="width: 100%; height: 400px"
+      :map-options="mapOptions"
+    >
       <naver-marker
         :latitude="37.51347"
         :longitude="127.041722"
-        @onLoad="onLoadMarker($event)"
-      >
-      </naver-marker>
+        @on-load="onLoadMarker($event)"
+      />
     </naver-map>
 
     <div>

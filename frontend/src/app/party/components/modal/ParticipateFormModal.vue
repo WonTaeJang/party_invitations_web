@@ -177,7 +177,6 @@ const onClickSubmit = () => {
   .notice {
     span {
       font-size: 12px;
-
     }
   }
 

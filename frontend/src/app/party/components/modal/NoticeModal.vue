@@ -68,7 +68,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useCookie } from '@/composables/use-cookie.js'
-const {hasCookie, setCookie} = useCookie()
+const { hasCookie, setCookie } = useCookie()
 const checked = ref(false)
 
 const infos = ref([
@@ -136,7 +136,6 @@ const onClickGo = () => {
   .notice {
     span {
       font-size: 12px;
-
     }
   }
 
@@ -150,7 +149,7 @@ const onClickGo = () => {
     gap: 4px;
 
     span {
-      font-size: 10px;
+      font-size: 12px;
     }
   }
 
