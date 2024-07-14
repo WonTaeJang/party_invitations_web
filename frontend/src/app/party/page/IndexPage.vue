@@ -16,14 +16,21 @@
         idle
         :is-intersected="isReady"
       >
+        <!-- invite message -->
         <InvitationCard />
         
+        <!-- gallery -->
         <GalleryCard 
           :title="'추억 갤러리'" 
           :path="'memory'" 
         />
+
+        <!-- calendar -->
+        <CalendarCard />
       </LazyComponent>
       <NaverMapCard />
+      <!-- 지하철, 버스 , 자가용 이용시 -->
+      <!-- 이미지 사진 하나 넣기 -->
     </div>
 
     <!-- footer -->
@@ -89,8 +96,11 @@
 import LazyComponent from 'v-lazy-component'
 
 import TheHeader from "@party/components/TheHeader.vue"
+
 import IntroCard from "@party/components/IntroCard.vue"
 import GalleryCard from "@party/components/GalleryCard.vue"
+import CalendarCard from "@party/components/CalendarCard.vue"
+
 import InvitationCard from "@party/components/InvitationCard.vue"
 import NaverMapCard from "@party/components/NaverMapCard.vue"
 import ParticipateFormModal from "@party/components/modal/ParticipateFormModal.vue"

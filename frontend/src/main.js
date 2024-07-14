@@ -2,7 +2,11 @@ import { createApp } from "vue"
 import { createPinia } from 'pinia'
 import router from "./router"
 import App from "./App.vue"
+
+import VCalendar from 'v-calendar'
 import "./assets/css/style.css"
+import 'v-calendar/style.css'
+
 import { createNaverMap } from "vue3-naver-maps"
 
 // bootstrap
@@ -14,6 +18,7 @@ const app = createApp(App)
 const pinia = createPinia()
 
 app.use(pinia)
+app.use(VCalendar)
 app.use(router)
 app.use(createNaverMap, {
   clientId: "2ovaor9f5t", // Required
