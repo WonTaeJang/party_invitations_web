@@ -1,7 +1,7 @@
 <template>
   <CardContainer
     icon="calendar-heart"
-    :title="'일시'"
+    title="일시"
   >
     <div class="calendar-container">
       <!-- date -->
@@ -16,6 +16,7 @@
 
       <!-- calendar -->
       <VCalendar 
+        is-dark
         mode="date" 
         :attributes="attributes"
       />
@@ -97,12 +98,8 @@ const dday = computed(() => {
 })
 
 const initTimeStemp = () => {
-  console.log(dayjs(eventDate.value).format())
-  console.log(dayjs().format())
-
   setInterval(() => {
     dDayDate.value = dayjs(eventDate.value).valueOf() - dayjs().valueOf()
-    console.log(dDayDate.value)
   }, 1000)
 }
 
@@ -143,5 +140,4 @@ const initTimeStemp = () => {
   }
 
 }
-
 </style>

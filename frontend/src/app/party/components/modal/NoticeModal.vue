@@ -43,10 +43,10 @@
           class="btn btn-dark btn-sm"
           @click="onClickGo"
         >
-          참가하러 가기
+          참석하러 가기
         </button>
 
-        <div
+        <!-- <div
           class="cookie-item"
           @click="checked = !checked"
         >
@@ -60,7 +60,7 @@
           >
             하루동안 보지 않기
           </span>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

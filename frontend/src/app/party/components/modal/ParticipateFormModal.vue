@@ -10,7 +10,7 @@
 
       <!-- header -->
       <header>
-        <h1>파티 참가 {{ coreStore.hasUser ? '완료': '신청하기' }} </h1>
+        <h1>파티 참석 {{ coreStore.hasUser ? '완료': '신청하기' }} </h1>
       </header>
 
       <!-- contents -->
@@ -72,7 +72,7 @@
             <label
               class="form-check-label"
               for="checkInput"
-            >이벤트 배틀 참가 (랜덤 추첨)</label>
+            >이벤트 배틀 참여 (랜덤 추첨)</label>
           </div>
         </div>
       </section>

@@ -39,7 +39,7 @@ module.exports = {
           'Index', 
           'Icon', 
           'Loading',
-          'Logout'
+          'Intro',
         ]
       }]
   },

@@ -17,11 +17,13 @@
         :is-intersected="isReady"
       >
         <!-- invite message -->
-        <InvitationCard />
+        <InvitationCard 
+          @click="noticeToggle = true"
+        />
         
         <!-- gallery -->
         <GalleryCard 
-          :title="'추억 갤러리'" 
+          :title="'웨딩 갤러리'" 
           :path="'memory'" 
         />
 
@@ -48,16 +50,16 @@
             class="message-item"
           >
             <i class="bi bi-balloon-heart"></i>
-            <label>{{ messageList[messageCount].name }}</label>
-            <label>{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}{{ messageList[messageCount].comments }}</label>
+            <label class="name">{{ messageList[messageCount].name }}</label>
+            <label class="message">{{ messageList[messageCount].comments }}</label>
           </div>
           <div
             v-else
             class="message-item"
           >
             <i class="bi bi-balloon-heart-fill"></i>
-            <label>{{ messageList[messageCount].name }}</label>
-            <label>{{ messageList[messageCount].comments }}</label>
+            <label class="name">{{ messageList[messageCount].name }}</label>
+            <label class="message">{{ messageList[messageCount].comments }}</label>
           </div>
         </Transition>
       </div>
@@ -135,34 +137,11 @@ const confirmToggle = ref(false)
 const messageList = ref([])
 const messageCount = ref(0)
 
-const indexMap = [
-  {
-    id: "invitation",
-    label: "파티에 초대합니다.",
-  },
-  {
-    id: "photos",
-    label: "추억 갤러리",
-  },
-  {
-    id: "gallery",
-    label: "웨딩 갤러리",
-  },
-  {
-    id: "reservation",
-    label: "참석 하기",
-  },
-  {
-    id: "location",
-    label: "오시는 길",
-  },
-]
-
 onMounted(async () => {
   try {
-    if (!hasCookie('hide_one_day')) {
-      noticeToggle.value = true
-    }
+    // if (!hasCookie('hide_one_day')) {
+    //   noticeToggle.value = true
+    // }
 
     isReady.value = true
     isLoading.value = true
@@ -185,7 +164,8 @@ const initMessage = async () => {
       return !!el.comments
     })
 
-    console.log(messageList.value)
+    // sorting
+    messageList.value.sort(() => Math.random() - 0.5)
   }
 
   setInterval(() => {
@@ -301,18 +281,30 @@ const errorNotice = (code) => {
 
 .message-item {
   position: absolute;
+  width: 100%;
   left: 4px;
   top: 4px;
   display: flex;
+  align-items: center;
   gap: 8px;
-  // transform: translateY(-50%);
-  // display: flex;
-  // align-items: center;
-  // justify-content: space-between;
+
   label {
-    // text-overflow: ellipsis;
-    // width: 250px;
+    padding: 0;
+    margin: 0;
     white-space: nowrap;
+  }
+
+  .name {
+    font-size: 14px;
+  }
+
+  .message {
+    font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    // display: inline-block;
+    width: calc(100% - 100px);
   }
 }
 </style>

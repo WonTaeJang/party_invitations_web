@@ -33,6 +33,7 @@ const props = defineProps({
 .card-title {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   margin-bottom: 12px;
 
