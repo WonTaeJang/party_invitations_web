@@ -61,9 +61,9 @@ const galleryList = computed(() => {
   let list = []
 
   // prod 일때와 dev일때 링크가 다르게 해야함
-  for (let i = 0; i < 27; i++) {
+  for (let i = 0; i < 25; i++) {
     list.push({
-      link: `/img/${props.path}/${i + 1}.png`, // /src/assets
+      link: `/img/${props.path}/${i + 1}.jpg`, // /src/assets
       // link: `/src/assets/img/${props.path}/${i + 1}.png`,
     })
   }
@@ -83,7 +83,7 @@ const slideTo = (val) => {
 }
 #gallery {
   .carousel__item {
-    height: 400px;
+    height: 600px;
     width: 100%;
   }
 }

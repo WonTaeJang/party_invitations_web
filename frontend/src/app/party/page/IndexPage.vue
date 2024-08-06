@@ -11,7 +11,9 @@
       ref="contentsRef"
       class="contents"
     >
-      <IntroCard />
+      <ImgCard 
+        type="intro"
+      />
       <LazyComponent
         idle
         :is-intersected="isReady"
@@ -23,7 +25,7 @@
         
         <!-- gallery -->
         <GalleryCard 
-          :title="'웨딩 갤러리'" 
+          :title="'갤러리'" 
           :path="'memory'" 
         />
 
@@ -33,12 +35,14 @@
       <NaverMapCard />
       <!-- 지하철, 버스 , 자가용 이용시 -->
       <!-- 이미지 사진 하나 넣기 -->
+      <ImgCard 
+        type="outro"
+      />
     </div>
 
     <!-- footer -->
     <div
       class="footer bg-dark"
-      @click="flag = !flag"
     >
       <div
         v-if="messageList.length > 0"
@@ -99,7 +103,7 @@ import LazyComponent from 'v-lazy-component'
 
 import TheHeader from "@party/components/TheHeader.vue"
 
-import IntroCard from "@party/components/IntroCard.vue"
+import ImgCard from "@party/components/ImgCard.vue"
 import GalleryCard from "@party/components/GalleryCard.vue"
 import CalendarCard from "@party/components/CalendarCard.vue"
 
@@ -225,13 +229,13 @@ const errorNotice = (code) => {
   position: relative;
 
   .header {
-    position: absolute;
+    // position: absolute;
     top: 0;
     left: 0;
   }
 
   .contents {
-    height: calc(100% - 40px);
+    height: calc(100% - 100px);
     overflow-y: scroll;
   }
 

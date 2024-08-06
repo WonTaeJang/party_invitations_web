@@ -4,7 +4,7 @@ import router from "./router"
 import App from "./App.vue"
 
 import VCalendar from 'v-calendar'
-import "./assets/css/style.css"
+// import "./assets/css/style.css"
 import 'v-calendar/style.css'
 
 import { createNaverMap } from "vue3-naver-maps"
