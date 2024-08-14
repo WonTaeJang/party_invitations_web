@@ -10,14 +10,14 @@
 
       <!-- header -->
       <header>
-        <h1>파티 참석 {{ coreStore.hasUser ? '완료': '신청하기' }} </h1>
+        <h1>{{ coreStore.hasUser ? '제출 완료': '축하해주세요 😊' }} </h1>
       </header>
 
       <!-- contents -->
       <section>
         <div class="notice">
           <span>
-            파티에 참석할 수 있는 인원이 제한되어 있습니다. 참석하실분은 꼭 참석여부를 전달해주세요.!
+            파티에 참석할 수 있는 인원이 제한되어 있습니다. 참석하실분은 꼭 참석여부를 전달해주세요!
           </span>
         </div>
 
@@ -72,7 +72,27 @@
             <label
               class="form-check-label"
               for="checkInput"
-            >이벤트 배틀 참여 (랜덤 추첨)</label>
+            >
+              파티 참석(본인포함한 인원수 써주세요.)
+            </label>
+          </div>
+
+          <!-- 전화번호 뒤 4자리 -->
+          <div
+            v-if="eventFlag"
+            class="input-group mb-2"
+          >
+            <i :class="['input-group-text', 'bi', `bi-person-add`]"></i>
+            <input
+              v-model="count" 
+              type="number" 
+              :max="MAX_COUNT"
+              :min="MIN_COUNT"
+              class="form-control form-control-sm" 
+              placeholder="참석 인원" 
+              :disabled="coreStore.hasUser"
+              @focusout="changeEvent"
+            >
           </div>
         </div>
       </section>
@@ -100,6 +120,9 @@ const name = ref(null)
 const phone = ref(null)
 const message = ref(null)
 const eventFlag = ref(false)
+const count = ref(1)
+const MIN_COUNT = 1
+const MAX_COUNT = 5
 
 onMounted(() => {
   if (coreStore.hasUser) {
@@ -107,6 +130,7 @@ onMounted(() => {
     phone.value= coreStore.user.phone_number
     message.value = coreStore.user.comments
     eventFlag.value = coreStore.user.check_event
+    count.value = coreStore.user.number_of_participant
   }
 })
 
@@ -129,11 +153,20 @@ const onClickSubmit = () => {
     name: name.value,
     phone_number: phone.value,
     comments: message.value,
-    check_event: eventFlag.value
+    check_event: eventFlag.value,
+    number_of_participant: count.value
   }
 
   emit('submit', formData)
   close()
+}
+
+const changeEvent = () => {
+  if (count.value > MAX_COUNT) {
+    count.value = MAX_COUNT
+  } else if (count.value < MIN_COUNT) {
+    count.value = 1
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -146,6 +179,7 @@ const onClickSubmit = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10000;
 
   background: rgb(0,0,0,0.5);
 

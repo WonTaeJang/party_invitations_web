@@ -17,7 +17,7 @@
       <section>
         <div class="notice">
           <span>
-            파티에 참석할 수 있는 인원이 제한되어 있습니다. 참석하실분은 꼭 참석여부를 전달해주세요.!
+            파티에 참석할 수 있는 인원이 제한되어 있습니다. 참석하실분은 꼭 참석여부를 전달해주세요!
           </span>
         </div>
 
@@ -43,7 +43,7 @@
           class="btn btn-dark btn-sm"
           @click="onClickGo"
         >
-          참석하러 가기
+          파티 참석하러 가기
         </button>
 
         <!-- <div
@@ -66,27 +66,30 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useCookie } from '@/composables/use-cookie.js'
 const { hasCookie, setCookie } = useCookie()
 const checked = ref(false)
-
-const infos = ref([
-  {
-    id: 'heart',
-    label: '신랑 장원태 & 신부 김희연',
-  },
-  {
-    id: 'calendar-check',
-    label: '2024년 9월 30일 ...',
-  },
-  {
-    id: 'geo-alt',
-    label: '역삼역 어딘가...',
-  },
-])
+const infos = ref([])
 
 const emit = defineEmits(['closeModal', 'participate'])
+
+onMounted(() => {
+  infos.value.push({
+    id: 'heart',
+    label: import.meta.env['VITE_NOTICE_TITLE']
+  })
+
+  infos.value.push({
+    id: 'calendar-check',
+    label: import.meta.env['VITE_DATE_STRING']
+  })
+
+  infos.value.push({
+    id: 'geo-alt',
+    label: import.meta.env['VITE_LOCATION']
+  })
+})
 
 const close = () => { 
   if (checked.value) {

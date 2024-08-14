@@ -10,16 +10,18 @@
           {{ date }}
         </p>
         <p class="fs-6">
-          토요일 오후 3시
+          {{ evnetTime }}
         </p>
       </div>
 
       <!-- calendar -->
-      <VCalendar 
-        is-dark
-        mode="date" 
-        :attributes="attributes"
-      />
+      <div class="my-calendar">
+        <VCalendar 
+          is-dark
+          mode="date" 
+          :attributes="attributes"
+        />
+      </div>
 
       <div v-if="dday">
         <div class="time-stamp-title">
@@ -61,10 +63,12 @@ import { onMounted, ref, computed } from 'vue'
 import dayjs from 'dayjs'
 
 const eventDate = ref(null)
+const evnetTime = ref(null)
 const dDayDate = ref(null)
 
 onMounted(() => {
   eventDate.value = import.meta.env['VITE_EVENT_DATE']
+  evnetTime.value = import.meta.env['VITE_TIME_STRING']
 
   initTimeStemp()
 })
@@ -139,5 +143,20 @@ const initTimeStemp = () => {
     font-size: 16px;
   }
 
+}
+
+.my-calendar :deep(.vc-arrow) {
+  background-color: transparent;
+
+  &:hover {
+    background: var(--vc-header-arrow-hover-bg);
+  }
+}
+.my-calendar :deep(.vc-title) {
+  background-color: transparent;
+
+  &:hover {
+    background: var(--vc-header-arrow-hover-bg);
+  }
 }
 </style>

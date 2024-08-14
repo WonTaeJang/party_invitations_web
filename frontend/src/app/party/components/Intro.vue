@@ -11,26 +11,24 @@
         <span>즐거운</span>
         <span>시간을</span>
         <span>보내요.</span>
-        <!-- <span>except</span>
-        <span>the</span>
-        <span>limits</span>
-        <span>you</span>
-        <span>place</span>
-        <span>on</span>
-        <span>your</span>
-        <span>own</span>
-        <span>thinking.</span> -->
       </h1>
     </div>
 
     <footer>
-      <span>2024. 09. 28 토요일 오후 3시</span>
-      <span>역삼역 어딘가</span>
+      <span>{{ dateString }}</span>
+      <span>{{ location }}</span>
     </footer>
   </div>
 </template>
-<script setup> 
-
+<script setup>
+import { onMounted, ref } from 'vue'
+let location = ref(null)
+let dateString = ref(null)
+ 
+onMounted(() => {
+  location.value = import.meta.env['VITE_LOCATION']
+  dateString.value = import.meta.env['VITE_DATE_STRING']
+})
 </script>
 <style lang="scss" scoped>
 @keyframes fade-in {
