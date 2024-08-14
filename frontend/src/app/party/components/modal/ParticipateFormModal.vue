@@ -154,7 +154,7 @@ const onClickSubmit = () => {
     phone_number: phone.value,
     comments: message.value,
     check_event: eventFlag.value,
-    number_of_participant: count.value
+    number_of_participant: eventFlag.value ? count.value : 0
   }
 
   emit('submit', formData)

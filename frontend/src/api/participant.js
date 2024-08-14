@@ -9,7 +9,7 @@ const particitantAPI = {
   },
   getParticipants: () => {
     return instance.get('/api/participants')
-  }
+  },
 }
 
 export default particitantAPI
