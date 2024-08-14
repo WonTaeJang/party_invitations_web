@@ -4,6 +4,7 @@ const bodyParser = require("body-parser")
 const cors = require("cors")
 const axios = require('axios')
 const {MongoClient, ObjectId} = require('mongodb')
+const dayjs = require('dayjs')
 
 const app = express()
 require('dotenv').config()
@@ -22,7 +23,6 @@ MongoClient.connect(uri).then(client => {
   dbClient = client
 })
 .catch(err => console.error('Error connecting to MongoDB', err))
-
 
 app.get('/api/data', async (req, res) => {
   try {
@@ -49,6 +49,27 @@ app.get('/api/participants', async (req, res) => {
 
     // Perform find operation
     const data = await collection.find().toArray()
+    // console.log(data)
+    res.json(data.map(el => {
+      return {
+        name: el.name,
+        comments: el.comments,
+      }
+    }))
+  } catch (err) {
+    console.error('Error fetching data', err)
+    res.status(500).json({ message: 'Error fetching data' })
+  }
+})
+
+app.get('/api/admin/participants', async (req, res) => {
+  try {
+    const database = dbClient.db('party_db')
+    const collection = database.collection('participant')
+
+    // Perform find operation
+    const data = await collection.find().toArray()
+    // console.log(data)
     res.json(data)
   } catch (err) {
     console.error('Error fetching data', err)
@@ -107,7 +128,7 @@ app.delete('/api/participant/delete', async (req, res) => {
 
 // 참가 신청
 app.post('/api/participant', async (req, res) => {
-  const { name, phone_number, comments, check_event } = req.body
+  const { name, phone_number, comments, check_event, number_of_participant } = req.body
 
   // 이름, 전화번호 필수
   if(!name || !phone_number) {
@@ -117,6 +138,16 @@ app.post('/api/participant', async (req, res) => {
   try {
     const database = dbClient.db('party_db')
     const collection = database.collection('participant')
+
+    // 기간이 지나면 
+    let expiredDate = dayjs(process.env.EXPIRED_DATE)
+
+    if(expiredDate.diff(dayjs().format()) < 0) {
+      return res.status(400).json({ 
+        code: 'req-error-expired',
+        error: "The application period has ended."
+      })
+    }
 
     // 중독 체크
     const data = await collection.find({name: name, phone_number: phone_number}).toArray()
@@ -133,8 +164,8 @@ app.post('/api/participant', async (req, res) => {
       name: name,
       phone_number: phone_number,
       comments: comments,
-      check_event: check_event,
-      number_of_participant: 1, // default 1
+      check_event: check_event, // 파티참가 플래그
+      number_of_participant: number_of_participant, // default 1
     })
 
     res.status(201).json({message: 'Insert Success'})
