@@ -32,6 +32,14 @@
             <i :class="['bi', `bi-${info.id}`]"></i>
 
             <span>{{ info.label }}</span>
+
+            <i
+              v-if="info.icon" 
+              :class="['bi', `bi-${info.icon}`]"
+              :style="{
+                fontSize: '12px'
+              }"
+            ></i>
           </div>
         </div>
       </section>
@@ -87,7 +95,9 @@ onMounted(() => {
 
   infos.value.push({
     id: 'geo-alt',
-    label: import.meta.env['VITE_LOCATION']
+    label: import.meta.env['VITE_LOCATION'],
+    icon: 'copy',
+    iconCopy: import.meta.env['VITE_LOCATION_DETAIL'],
   })
 })
 

@@ -1,6 +1,6 @@
 <template>
-  <div class="intro text-white">
-    <div class="contents">
+  <div class="intro">
+    <div class="contents text-black">
       <h1>
         <span>우리의</span>
         <span>결혼을</span>
@@ -14,7 +14,7 @@
       </h1>
     </div>
 
-    <footer>
+    <footer class="text-white">
       <span>{{ dateString }}</span>
       <span>{{ location }}</span>
     </footer>
@@ -52,7 +52,7 @@ onMounted(() => {
     position: absolute;
     left: 0;
     bottom: 0;
-    padding: 0 30px 100px 30px;
+    padding: 0 30px 200px 30px;
     display: flex;
     width: 100%;
     align-items: center;
@@ -66,7 +66,7 @@ onMounted(() => {
   .contents {
     position: absolute;
     left: 0;
-    top: 50%;
+    top: 20%;
 
     h1 {
       font-size: 20px;

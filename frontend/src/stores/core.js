@@ -6,6 +6,7 @@ export const useCoreStore = defineStore('core', () => {
 
   const participateToggle = ref(false)
 
+  
   const hasUser = computed(() => {
     let result = false
     if (Object.keys(user.value).length > 0) {

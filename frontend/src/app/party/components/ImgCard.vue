@@ -14,7 +14,7 @@ const props = defineProps({
   // width: 100%;
   height: 100%;
   background-size: cover;
-  background-image: url("@img/intro_title.png");
+  background-image: url("@img/intro_title.jpg");
   background-position: center center;
 }
 

@@ -22,6 +22,8 @@
         <InvitationCard 
           @click="noticeToggle = true"
         />
+
+        <NoticeCard />
         
         <!-- gallery -->
         <GalleryCard 
@@ -92,6 +94,10 @@
     />
   </teleport>
 
+  <teleport to="#snackbar">
+    <SnackBar />
+  </teleport>
+
   <teleport to="#loading">
     <SpinnerModal 
       v-if="isLoading"
@@ -109,11 +115,14 @@ import GalleryCard from "@party/components/GalleryCard.vue"
 import CalendarCard from "@party/components/CalendarCard.vue"
 
 import InvitationCard from "@party/components/InvitationCard.vue"
+import NoticeCard from "@party/components/NoticeCard.vue"
 import NaverMapCard from "@party/components/NaverMapCard.vue"
 import ParticipateFormModal from "@party/components/modal/ParticipateFormModal.vue"
 import NoticeModal from "@party/components/modal/NoticeModal.vue"
 import SpinnerModal from '@party/components/spinner/SpinnerModal.vue'
 import ConfirmModal from "@party/components/modal/ConfirmModal.vue"
+import SnackBar from "@party/components/snackbar/SnackBar.vue"
+
 
 import { ref, toRefs, onMounted } from "vue"
 import { useCoreStore } from '@store/core'

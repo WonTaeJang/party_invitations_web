@@ -61,7 +61,7 @@ const galleryList = computed(() => {
   let list = []
 
   // prod 일때와 dev일때 링크가 다르게 해야함
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 23; i++) {
     list.push({
       link: `/img/${props.path}/${i + 1}.jpg`, // /src/assets
       // link: `/src/assets/img/${props.path}/${i + 1}.png`,
