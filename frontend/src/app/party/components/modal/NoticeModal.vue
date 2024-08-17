@@ -39,6 +39,7 @@
               :style="{
                 fontSize: '12px'
               }"
+              @click="onClickCopy(info.iconCopy)"
             ></i>
           </div>
         </div>
@@ -74,11 +75,15 @@
   </div>
 </template>
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, toRefs } from 'vue'
 import { useCookie } from '@/composables/use-cookie.js'
 const { hasCookie, setCookie } = useCookie()
+import { useCoreStore } from '@store/core'
+import { copyText } from 'vue3-clipboard'
 const checked = ref(false)
 const infos = ref([])
+const coreStore = useCoreStore()
+const { snackbarToggle } = toRefs(coreStore)
 
 const emit = defineEmits(['closeModal', 'participate'])
 
@@ -113,6 +118,18 @@ const onClickGo = () => {
   emit('participate')
   close()
 }
+
+const onClickCopy = (copyString) => {
+  copyText(copyString, undefined, (error, event) => {
+    if (error) {
+      console.log(error)
+    } else {
+      snackbarToggle.value = true
+      console.log(event)
+    }
+  })
+}
+
 </script>
 <style lang="scss" scoped>
 .modal {

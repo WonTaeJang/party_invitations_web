@@ -10,3 +10,5 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 ## Reference
 - [vue3-carousel](https://ismail9k.github.io/vue3-carousel/examples.html) 
 - [v-lazy-componet](https://v-lazy-component.vercel.app/)
+
+- [vue3-clipboard](https://github.com/Daizhen1995/vue3-clipboard)

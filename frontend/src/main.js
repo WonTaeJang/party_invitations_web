@@ -4,6 +4,7 @@ import router from "./router"
 import App from "./App.vue"
 
 import VCalendar from 'v-calendar'
+import VueClipboard from 'vue3-clipboard'
 // import "./assets/css/style.css"
 import 'v-calendar/style.css'
 
@@ -19,6 +20,10 @@ const pinia = createPinia()
 
 app.use(pinia)
 app.use(VCalendar)
+app.use(VueClipboard, {
+  autoSetContainer: true,
+  appendToBody: true,
+})
 app.use(router)
 app.use(createNaverMap, {
   clientId: "2ovaor9f5t", // Required
