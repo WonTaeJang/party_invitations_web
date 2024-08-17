@@ -34,10 +34,11 @@
         <!-- calendar -->
         <CalendarCard />
       </LazyComponent>
+
+      <!-- naver map -->
       <NaverMapCard />
-      <!-- 지하철, 버스 , 자가용 이용시 -->
-      <!-- 신청할때 참석 없이 메시지만 작성하는 케이스 -->
-      <!-- 참가자 관리 페이지 필요 -->
+
+      <!-- outro image -->
       <ImgCard 
         type="outro"
       />
@@ -94,9 +95,13 @@
     />
   </teleport>
 
-  <teleport to="#snackbar">
-    <SnackBar />
-  </teleport>
+  <!-- <teleport to="#snackbar">
+    <Transition name="slide-up">
+      <SnackBar 
+        v-if="snackbarToggle"
+      />
+    </Transition>
+  </teleport> -->
 
   <teleport to="#loading">
     <SpinnerModal 
@@ -124,14 +129,14 @@ import ConfirmModal from "@party/components/modal/ConfirmModal.vue"
 import SnackBar from "@party/components/snackbar/SnackBar.vue"
 
 
-import { ref, toRefs, onMounted } from "vue"
+import { ref, toRefs, onMounted, watch } from "vue"
 import { useCoreStore } from '@store/core'
 import { useScroll } from "@vueuse/core"
 import particitantAPI from '@api/participant'
 import { useCookie } from '@/composables/use-cookie.js'
 
 const coreStore = useCoreStore()
-const { participateToggle } = toRefs(coreStore)
+const { participateToggle, snackbarToggle } = toRefs(coreStore)
 
 const contentsRef = ref(null)
 const { arrivedState } = useScroll(contentsRef)
@@ -151,6 +156,8 @@ const confirmToggle = ref(false)
 const messageList = ref([])
 const messageCount = ref(0)
 
+const interval = ref(null)
+
 onMounted(async () => {
   try {
     // if (!hasCookie('hide_one_day')) {
@@ -167,6 +174,18 @@ onMounted(async () => {
   }
 
 })
+
+// 모바일에서 없어도 되기에 주석처리
+// watch(snackbarToggle, (value) => {
+//   if (value) {
+//     if (interval.value === null) {
+//       interval.value = setTimeout(() => {
+//         snackbarToggle.value = false
+//         interval.value = null
+//       }, 2000)
+//     }
+//   }
+// })
 
 const initMessage = async () => {
   let { data } = await particitantAPI.getParticipants()

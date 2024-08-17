@@ -5,8 +5,8 @@ export const useCoreStore = defineStore('core', () => {
   const user = useStorage('user', {})
 
   const participateToggle = ref(false)
+  const snackbarToggle = ref(false)
 
-  
   const hasUser = computed(() => {
     let result = false
     if (Object.keys(user.value).length > 0) {
@@ -19,6 +19,7 @@ export const useCoreStore = defineStore('core', () => {
   return {
     user,
     participateToggle,
-    hasUser
+    snackbarToggle,
+    hasUser,
   }
 })

@@ -55,16 +55,13 @@ const props = defineProps({
 })
 
 const currentSlide = ref(0)
-// const currentSlide2 = ref(0)
 
 const galleryList = computed(() => {
   let list = []
 
-  // prod 일때와 dev일때 링크가 다르게 해야함
   for (let i = 0; i < 23; i++) {
     list.push({
-      link: `/img/${props.path}/${i + 1}.jpg`, // /src/assets
-      // link: `/src/assets/img/${props.path}/${i + 1}.png`,
+      link: `/img/${props.path}/${i + 1}.jpg`,
     })
   }
 
@@ -78,7 +75,6 @@ const slideTo = (val) => {
 
 <style lang="scss" scoped>
 .gallery-container {
-  // background-color: black !important;
   padding-bottom: 10px;
 }
 #gallery {

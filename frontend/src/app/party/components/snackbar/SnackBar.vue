@@ -17,7 +17,7 @@
 }
 .snackbar {
   display: flex;
-  border: 1px solid #fff;
+  // border: 1px solid #fff;
   align-items: center;
   justify-content: center;
   padding: 4px;
