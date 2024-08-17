@@ -15,6 +15,10 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/admin',
+    component: () => import('@admin/page/IndexPage.vue')
+  },
 
 ]
 
