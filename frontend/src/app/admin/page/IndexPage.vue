@@ -1,5 +1,8 @@
 <template>
-  <div class="admin-page">
+  <div 
+    class="admin-page"
+    v-if="isLogin"
+  >
     <div class="admin-header">
       <label>전체: {{ list ? list.length : 0 }}</label>
       <input
@@ -19,6 +22,28 @@
       @delete="eventDeleteItem"
     />
   </div>
+  <div
+    v-else
+  >
+    <div class="login-container">
+      <div class="input-group mb-2">
+        <i :class="['input-group-text', 'bi', `bi-person-check`]"></i>
+        <input 
+          v-model="password"
+          type="text" 
+          class="form-control form-control-sm" 
+          placeholder="비밀번호" 
+        >
+        <button
+          class="btn btn-secondary"
+          @click="onClickLogin"  
+        >
+          로그인
+        </button>
+      </div>
+    </div>
+
+  </div>
 
   <teleport to="#popup">
     <ConfirmModal 
@@ -29,7 +54,7 @@
   </teleport>
 </template>
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import adminAPI from '@api/admin'
 import ConfirmModal from '@admin/components/ConfirmModal.vue'
 import ParticitatnsTable from '@admin/components/ParticitatnsTable.vue'
@@ -37,10 +62,8 @@ import ParticitatnsTable from '@admin/components/ParticitatnsTable.vue'
 const list = ref(null)
 const search = ref(null)
 const confirmToggle = ref(false)
-
-onMounted(async () => {
-  await initParticitants()
-})
+const isLogin = ref(false)
+const password = ref(null)
 
 const attendTeam = computed(() => {
   if (list.value) {
@@ -146,6 +169,24 @@ const eventDeleteItem = async ($event) => {
   confirmToggle.value = true
 }
 
+const onClickLogin = async () => {
+  if(!password.value && password.value.toString().length === 0) return
+
+  try {
+    await adminAPI.login({
+      password: password.value
+    })
+
+    await initParticitants()
+    isLogin.value = true
+  } catch (error) {
+    console.log(error)
+    isLogin.value = false
+  }
+
+
+}
+
 </script>
 <style lang="scss" scoped>
 .admin-page {
@@ -161,5 +202,13 @@ const eventDeleteItem = async ($event) => {
   .admin-contents {
     margin-bottom: 20px;
   }
+}
+
+.login-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
 }
 </style>

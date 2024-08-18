@@ -14,6 +14,9 @@ const adminAPI = {
   },
   updateParticipant: (data) => {
     return instance.put('/api/participant', data)
+  },
+  login: (data) => {
+    return instance.post('/api/login', data)
   }
 }
 
