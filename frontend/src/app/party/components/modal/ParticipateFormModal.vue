@@ -23,6 +23,41 @@
 
         <!-- info -->
         <div class="info-container">
+          <!-- 파티 참석 여부 -->
+          <div class="form-check mb-2">
+            <input 
+              id="checkInput"
+              v-model="eventFlag" 
+              :disabled="coreStore.hasUser"
+              type="checkbox" 
+              class="form-check-input"
+            >
+            <label
+              class="form-check-label"
+              for="checkInput"
+            >
+              파티 참석(본인포함한 인원수 써주세요.)
+            </label>
+          </div>
+
+          <!-- 참석 인원 -->
+          <div
+            v-if="eventFlag"
+            class="input-group mb-2"
+          >
+            <i :class="['input-group-text', 'bi', `bi-person-add`]"></i>
+            <input
+              v-model="count" 
+              type="number" 
+              :max="MAX_COUNT"
+              :min="MIN_COUNT"
+              class="form-control form-control-sm" 
+              placeholder="참석 인원" 
+              :disabled="coreStore.hasUser"
+              @focusout="changeEvent"
+            >
+          </div>
+
           <!-- 이름 -->
           <div class="input-group mb-2">
             <i :class="['input-group-text', 'bi', `bi-person-check`]"></i>
@@ -58,41 +93,6 @@
               :disabled="coreStore.hasUser"
             >
             </textarea>
-          </div>
-
-          <!-- 이벤트 배틀 참가 여부 -->
-          <div class="form-check">
-            <input 
-              id="checkInput"
-              v-model="eventFlag" 
-              :disabled="coreStore.hasUser"
-              type="checkbox" 
-              class="form-check-input"
-            >
-            <label
-              class="form-check-label"
-              for="checkInput"
-            >
-              파티 참석(본인포함한 인원수 써주세요.)
-            </label>
-          </div>
-
-          <!-- 전화번호 뒤 4자리 -->
-          <div
-            v-if="eventFlag"
-            class="input-group mb-2"
-          >
-            <i :class="['input-group-text', 'bi', `bi-person-add`]"></i>
-            <input
-              v-model="count" 
-              type="number" 
-              :max="MAX_COUNT"
-              :min="MIN_COUNT"
-              class="form-control form-control-sm" 
-              placeholder="참석 인원" 
-              :disabled="coreStore.hasUser"
-              @focusout="changeEvent"
-            >
           </div>
         </div>
       </section>
