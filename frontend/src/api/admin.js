@@ -12,6 +12,9 @@ const adminAPI = {
       
     })
   },
+  updateParticipant: (data) => {
+    return instance.put('/api/participant', data)
+  }
 }
 
 export default adminAPI

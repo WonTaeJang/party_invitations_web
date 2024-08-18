@@ -12,8 +12,6 @@
       <label>참석: {{ attendTeam.length }}팀, {{ attendCount }}명</label>
     </div>
 
-    <!-- 삭제, 메모 수정 추가 필요 -->
-    <!-- 심플하게 보기 기능 필요 -->
     <ParticitatnsTable 
       v-if="listFileter"
       :list="listFileter"
@@ -96,7 +94,7 @@ const listFileter = computed(() => {
 const initParticitants = async () => {
   try {
     let { data } = await adminAPI.getParticipantAll()
-    // console.log(data)
+    console.log(data)
     if (data) {
       list.value = data
     }
@@ -105,8 +103,27 @@ const initParticitants = async () => {
   }
 }
 
-const eventUpdateItem = ($event) => {
-  console.log($event)
+const eventUpdateItem = async ($event) => {
+  let check_event = $event.check_event  // boolean
+  
+  if ($event.number_of_participant > 0) {
+    check_event = true
+  } else {
+    check_event = false
+  }
+
+  try {
+    await adminAPI.updateParticipant({
+      id: $event._id,
+      check_event: check_event,
+      number_of_participant: $event.number_of_participant,
+      hidden_comments: $event.hidden_comments ? $event.hidden_comments : ''
+    })
+
+    await initParticitants()
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const onClickDelete = async () => {
