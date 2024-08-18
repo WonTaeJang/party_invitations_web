@@ -190,7 +190,7 @@ onMounted(async () => {
 const initMessage = async () => {
   let { data } = await particitantAPI.getParticipants()
 
-  console.log(data)
+  // console.log(data)
 
   if (data) {
     messageList.value = data.filter((el) => {

@@ -178,6 +178,36 @@ app.post('/api/participant', async (req, res) => {
   }
 })
 
+// update 
+app.put('/api/participant', async (req, res) => {
+  const { id, check_event, number_of_participant, hidden_comments } = req.body
+  console.log(req.body)
+
+  try {
+    const database = dbClient.db('party_db')
+    const collection = database.collection('participant')
+
+    await collection.updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          check_event: check_event,
+          number_of_participant: number_of_participant,
+          hidden_comments: hidden_comments
+        }
+      }
+    )
+
+    res.status(200).json({
+      message: 'Updated',
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ 
+      message: 'Error update data' 
+    })
+  }
+})
 
 /**
  * frontend 

@@ -11,6 +11,7 @@ export default defineConfig({
       '@img': resolve(__dirname, 'src/assets/img'),
       '@api': resolve(__dirname, 'src/api'),
       '@party': resolve(__dirname, 'src/app/party'),
+      '@admin': resolve(__dirname, 'src/app/admin'),
       '@store': resolve(__dirname, 'src/stores'),
     }
   },
