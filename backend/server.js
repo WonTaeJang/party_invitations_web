@@ -96,6 +96,21 @@ app.post('/api/participant/find', async (req, res) => {
   }
 })
 
+// 로그인
+app.post('/api/login', (req, res) => {
+  const { password } = req.body
+
+  if(password.toString().length === 4) {
+    if(password.toString() === process.env.ADMIN_PASSWORD.toString()) {
+      res.status(200).json({ message: 'Login' })
+    } else {
+      res.status(400).json({ error: 'Password Error' })
+    }
+  } else {
+    res.status(400).json({ error: 'Password Error' })
+  }
+})
+
 // 참가 취소
 app.delete('/api/participant/delete', async (req, res) => {
   const { id } = req.body
