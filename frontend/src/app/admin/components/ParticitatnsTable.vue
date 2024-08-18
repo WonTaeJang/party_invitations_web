@@ -48,9 +48,10 @@
           <i :class="['input-group-text', 'bi', `bi-person-add`]"></i>
           <input
             v-model="item.number_of_participant" 
-            type="text" 
+            type="number" 
+            :min="MIN_COUNT"
+            :max="MAX_COUNT"
             class="form-control form-control-sm" 
-            disabled
           >
         </div>
       </div>
@@ -76,6 +77,21 @@
         </textarea>
       </div>
 
+      <div class="event-container">
+        <button
+          class="btn btn-primary"
+          @click="onClickUpdate(item)"  
+        >
+          수정
+        </button>
+        <button
+          class="btn btn-secondary"
+          @click="onClickDelete(item)"  
+        >
+          삭제
+        </button>
+      </div>
+
       <span class="count">{{ idx + 1 }}</span>
     </div>
   </div>
@@ -87,6 +103,20 @@ const props = defineProps({
     default: () => []
   }
 })
+
+const emit = defineEmits(['update', 'delete'])
+
+const MIN_COUNT = 0
+const MAX_COUNT = 10
+
+const onClickUpdate = (item) => {
+  emit('update', item)
+}
+
+const onClickDelete = (item) => {
+  emit('delete', item)
+}
+
 </script>
 <style lang="scss" scoped>
 .table-container {
@@ -98,10 +128,6 @@ const props = defineProps({
 .table-item {
   position: relative;
   width: 400px;
-  // display: flex;
-  // align-items: center;
-  // gap: 4px;
-  // margin: 4px 0;
   padding: 4px;
   border: 1px solid #e9ecef;
   border-radius: 10px;
@@ -129,5 +155,12 @@ const props = defineProps({
     border-radius: 50%;
     border: 1px solid black;
   }
+}
+
+.event-container {
+  display: flex;
+  gap: 4px;
+  margin: 10px 0;
+  justify-content: end;
 }
 </style>

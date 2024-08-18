@@ -17,16 +17,28 @@
     <ParticitatnsTable 
       v-if="listFileter"
       :list="listFileter"
+      @update="eventUpdateItem"
+      @delete="eventDeleteItem"
     />
   </div>
+
+  <teleport to="#popup">
+    <ConfirmModal 
+      v-if="confirmToggle"
+      @close-modal="confirmToggle = false"
+      @confirm="onClickDelete"
+    />
+  </teleport>
 </template>
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import adminAPI from '@api/admin'
+import ConfirmModal from '@admin/components/ConfirmModal.vue'
 import ParticitatnsTable from '@admin/components/ParticitatnsTable.vue'
 
 const list = ref(null)
 const search = ref(null)
+const confirmToggle = ref(false)
 
 onMounted(async () => {
   await initParticitants()
@@ -83,14 +95,38 @@ const listFileter = computed(() => {
 
 const initParticitants = async () => {
   try {
-    let { data } = await adminAPI.getParticitantAll()
-    console.log(data)
+    let { data } = await adminAPI.getParticipantAll()
+    // console.log(data)
     if (data) {
       list.value = data
     }
   } catch (error) {
     console.log(error)
   }
+}
+
+const eventUpdateItem = ($event) => {
+  console.log($event)
+}
+
+const onClickDelete = async () => {
+  try {
+    await adminAPI.deleteParticipant({
+      id: deleteId.value
+    })
+
+    await initParticitants()
+
+    deleteId.value = null
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const deleteId = ref(null)
+const eventDeleteItem = async ($event) => {
+  deleteId.value = $event._id
+  confirmToggle.value = true
 }
 
 </script>
